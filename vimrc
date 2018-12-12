@@ -4,7 +4,7 @@ let g:UltiSnipsExpandTrigger="<c-l>"
 let g:UltiSnipsListSnippets="<c-k>"
 let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
-let g:UltiSnipsSnippetDirectories=["~/.config/nvim/plugged/vim-snippets/UltiSnips"]
+let g:UltiSnipsSnippetDirectories=["~/.vim/pack/plugins/start/vim-snippets/UltiSnips"]
 
 " vim-gitgutter
 "
