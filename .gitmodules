@@ -6,7 +6,7 @@
 	url = https://github.com/dyng/ctrlsf.vim.git
 [submodule "pack/plugins/start/editorconfig-vim"]
 	path = pack/plugins/start/editorconfig-vim
-	url = https:/github.com/editorconfig/editorconfig-vim
+	url = https://github.com/editorconfig/editorconfig-vim
 [submodule "pack/plugins/start/fzf.vim"]
 	path = pack/plugins/start/fzf.vim
 	url = https://github.com/junegunn/fzf.vim.git
