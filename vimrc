@@ -4,12 +4,13 @@ let g:UltiSnipsExpandTrigger="<c-l>"
 let g:UltiSnipsListSnippets="<c-k>"
 let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
-let g:UltiSnipsSnippetDirectories=["~/.vim/pack/plugins/start/vim-snippets/UltiSnips"]
+let g:UltiSnipsSnippetDirectories=["~/.config/nvim/plugged/vim-snippets/UltiSnips"]
 
 " vim-gitgutter
 "
 if executable('ag')
 	let g:gitgutter_grep_command = 'ag'
+	set grepprg=ag\ --nogroup\ --nocolor
 endif
 
 " lightline config test
@@ -76,17 +77,18 @@ nnoremap <leader>gl :Glog<cr>
 " }}}
 
 " basic config {{{
-syntax enable
+syntax on
 filetype plugin on
 
 set encoding=utf-8
-set foldmethod=syntax
+set foldmethod=indent
 set path+=**,/usr/local/include
 set nofoldenable
 set bs=2
 
 " backup options and locations {{{
 set backupdir=~/.vim/tmp
+set dir=~/.vim/tmp
 set backup
 
 " }}}
@@ -106,6 +108,7 @@ set ttimeout
 set timeoutlen=500
 set ttimeoutlen=100 " timeout when keypress belong to any combos
 
+set cscopetag
 
 " }}}
 
@@ -115,10 +118,10 @@ let mapleader=' '
 let maplocalleader='\\'
 
 " map key for fast split-switching
-nmap <C-j> <C-w>j
-nmap <C-k> <C-w>k
-nmap <C-l> <C-w>l
-nmap <C-h> <C-w>h
+" nmap <C-j> <C-w>j
+" nmap <C-k> <C-w>k
+" nmap <C-l> <C-w>l
+" nmap <C-h> <C-w>h
 nnoremap <leader>ei <ESC>:cope<CR>
 nnoremap <leader>eo <ESC>:ccl<CR>
 " }}}
@@ -159,8 +162,9 @@ set complete-=i
 set complete+=t
 
 " completion with tab
-inoremap <silent><expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
-inoremap <silent><expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
+inoremap <silent><expr><CR>    pumvisible () ? "\<c-y>" : "\<CR>"
+inoremap <silent><expr><TAB>   pumvisible () ? "\<C-n>" : "\<TAB>"
+inoremap <silent><expr><S-TAB> pumvisible () ? "\<C-p>" : "\<S-TAB>"
 
 " autocomplete insertmode mapping
 inoremap ;f <c-x><c-f>
@@ -169,7 +173,7 @@ inoremap ;o <c-x><c-o>
 inoremap ;i <c-x><c-i>
 inoremap ;s <c-x><c-s>
 inoremap ;d <c-x><c-d>
-inoremap ;] <c-x><c-]>
+inoremap ;t <c-x><c-]>
 " }}}
 
 " split and visual {{{
@@ -191,8 +195,8 @@ if (&term =~ '256color')
 	set t_ut=
 endif
 
-set bg=dark
-colorscheme evening
+set bg=light
+" colorscheme jellybeans
 " }}}
 
 " grep stuffs {{{
@@ -203,4 +207,13 @@ endif
 
 " diff settings {{{ 
 set diffopt+=algorithm:patience
+" }}}
+
+" {{{ autocommands groups
+augroup programming
+	au Filetype cpp setlocal tabstop=2 expandtab shiftwidth=2 smartindent foldmethod=syntax equalprg=clang-format\ \-style\=\"\{BasedOnStyle:\ google,\ IndentWidth\:\ 2\}\"
+	au Filetype c setlocal tabstop=8 noexpandtab shiftwidth=8 smartindent foldmethod=syntax
+	au Filetype vim setlocal foldmethod=marker
+	au Filetype javascript setlocal foldmethod=syntax expandtab tabstop=4 shiftwidth=4 smartindent
+augroup END
 " }}}
