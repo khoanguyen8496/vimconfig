@@ -107,8 +107,10 @@ set textwidth=0
 set ttimeout
 set timeoutlen=500
 set ttimeoutlen=100 " timeout when keypress belong to any combos
+set number
 
 set cscopetag
+set tags=tags;
 
 " }}}
 
@@ -195,7 +197,7 @@ if (&term =~ '256color')
 	set t_ut=
 endif
 
-set bg=light
+set bg=dark
 " colorscheme jellybeans
 " }}}
 
@@ -214,6 +216,6 @@ augroup programming
 	au Filetype cpp setlocal tabstop=2 expandtab shiftwidth=2 smartindent foldmethod=syntax equalprg=clang-format\ \-style\=\"\{BasedOnStyle:\ google,\ IndentWidth\:\ 2\}\"
 	au Filetype c setlocal tabstop=8 noexpandtab shiftwidth=8 smartindent foldmethod=syntax
 	au Filetype vim setlocal foldmethod=marker
-	au Filetype javascript setlocal foldmethod=syntax expandtab tabstop=4 shiftwidth=4 smartindent
+	au Filetype javascript setlocal foldmethod=marker expandtab tabstop=4 shiftwidth=4 smartindent
 augroup END
 " }}}
