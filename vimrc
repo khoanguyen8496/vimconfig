@@ -1,3 +1,50 @@
+" quality of live improvement bindings {{{
+" basic binding
+let mapleader=' '
+let maplocalleader='\\'
+
+nnoremap <leader>ei <ESC>:cope<CR>
+nnoremap <leader>eo <ESC>:ccl<CR>
+" }}}
+
+" basic config {{{
+syntax on
+filetype plugin on
+
+set encoding=utf-8
+set foldmethod=indent
+set path+=**,/usr/local/include
+set nofoldenable
+set bs=2
+
+" backup options and locations {{{
+set backupdir=~/.vim/tmp
+set dir=~/.vim/tmp
+set backup
+
+" }}}
+" set mouse all actions
+set mouse=a
+set tabpagemax=100
+" auto refresh
+set autowrite
+set autoread
+set wildmenu
+set ruler         " show cursor position in bottom line
+" y and d put stuff into system clipboard (so that other apps can see it)
+set clipboard=unnamed,unnamedplus
+set nowrap
+set textwidth=0
+set ttimeout
+set timeoutlen=500
+set ttimeoutlen=100 " timeout when keypress belong to any combos
+set number
+
+set cscopetag
+set tags=tags;
+
+" }}}
+
 " plugins config {{{
 " ultisnips config
 let g:UltiSnipsExpandTrigger="<c-l>"
@@ -8,10 +55,16 @@ let g:UltiSnipsSnippetDirectories=["~/.config/nvim/plugged/vim-snippets/UltiSnip
 
 " vim-gitgutter
 "
+" grep config {{{
 if executable('ag')
 	let g:gitgutter_grep_command = 'ag'
 	set grepprg=ag\ --nogroup\ --nocolor
 endif
+if executable('rg')
+	let g:gitgutter_grep_command = 'rg'
+	set grepprg=rg\ --vimgrep
+endif
+"}}}
 
 " lightline config test
 let g:lightline = {
@@ -76,58 +129,6 @@ nnoremap <leader>gm :Gmerge<cr>
 nnoremap <leader>gl :Glog<cr>
 " }}}
 
-" basic config {{{
-syntax on
-filetype plugin on
-
-set encoding=utf-8
-set foldmethod=indent
-set path+=**,/usr/local/include
-set nofoldenable
-set bs=2
-
-" backup options and locations {{{
-set backupdir=~/.vim/tmp
-set dir=~/.vim/tmp
-set backup
-
-" }}}
-" set mouse all actions
-set mouse=a
-set tabpagemax=100
-" auto refresh
-set autowrite
-set autoread
-set wildmenu
-set ruler         " show cursor position in bottom line
-" y and d put stuff into system clipboard (so that other apps can see it)
-set clipboard=unnamed,unnamedplus
-set nowrap
-set textwidth=0
-set ttimeout
-set timeoutlen=500
-set ttimeoutlen=100 " timeout when keypress belong to any combos
-set number
-
-set cscopetag
-set tags=tags;
-
-" }}}
-
-" quality of live improvement bindings {{{
-" basic binding
-let mapleader=' '
-let maplocalleader='\\'
-
-" map key for fast split-switching
-" nmap <C-j> <C-w>j
-" nmap <C-k> <C-w>k
-" nmap <C-l> <C-w>l
-" nmap <C-h> <C-w>h
-nnoremap <leader>ei <ESC>:cope<CR>
-nnoremap <leader>eo <ESC>:ccl<CR>
-" }}}
-
 " Tab related stuffs {{{
 set shiftround    " when shifting non-aligned set of lines, align them to next tabstop
 set smarttab
@@ -168,16 +169,6 @@ inoremap <silent><expr><CR>    pumvisible () ? "\<c-y>" : "\<CR>"
 inoremap <silent><expr><TAB>   pumvisible () ? "\<C-n>" : "\<TAB>"
 inoremap <silent><expr><S-TAB> pumvisible () ? "\<C-p>" : "\<S-TAB>"
 
-" autocomplete insertmode mapping
-inoremap ;f <c-x><c-f>
-inoremap ;p <c-x><c-p>
-inoremap ;o <c-x><c-o>
-inoremap ;i <c-x><c-i>
-inoremap ;s <c-x><c-s>
-inoremap ;d <c-x><c-d>
-inoremap ;t <c-x><c-]>
-" }}}
-
 " split and visual {{{
 set lazyredraw
 set splitbelow
@@ -201,11 +192,6 @@ set bg=dark
 " colorscheme jellybeans
 " }}}
 
-" grep stuffs {{{
-if executable('ag')
-	let grepprg='ag --vimgrep --nogreoup --nocolor'
-endif
-" }}}
 
 " diff settings {{{ 
 set diffopt+=algorithm:patience
@@ -217,5 +203,6 @@ augroup programming
 	au Filetype c setlocal tabstop=8 noexpandtab shiftwidth=8 smartindent foldmethod=syntax
 	au Filetype vim setlocal foldmethod=marker
 	au Filetype javascript setlocal foldmethod=marker expandtab tabstop=4 shiftwidth=4 smartindent
+	au Filetype go setlocal tabstop=8 noexpandtab shiftwidth=8 smartindent foldmethod=syntax
 augroup END
 " }}}
