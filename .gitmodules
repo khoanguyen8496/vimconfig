@@ -91,3 +91,6 @@
 [submodule "pack/plugins/start/ncm2-tagprefix"]
 	path = pack/plugins/start/ncm2-tagprefix
 	url = https://github.com/ncm2/ncm2-tagprefix
+[submodule "pack/plugins/start/vim-go"]
+	path = pack/plugins/start/vim-go
+	url = https://github.com/fatih/vim-go.git
