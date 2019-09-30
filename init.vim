@@ -5,6 +5,8 @@ let maplocalleader='\\'
 
 nnoremap <leader>ei <ESC>:cope<CR>
 nnoremap <leader>eo <ESC>:ccl<CR>
+nmap <F2> <ESC>:w<CR>
+nmap <F9> <ESC>:make!<CR>:cope<CR>
 " }}}
 
 " basic config {{{
@@ -13,7 +15,7 @@ filetype plugin on
 
 set encoding=utf-8
 set foldmethod=indent
-set path+=**,/usr/local/include
+set path+=**,/usr/local/include,~/go/src
 set nofoldenable
 set bs=2
 
@@ -39,6 +41,7 @@ set ttimeout
 set timeoutlen=500
 set ttimeoutlen=100 " timeout when keypress belong to any combos
 set number
+set scrolloff=5
 
 set cscopetag
 set tags=tags;
@@ -78,6 +81,10 @@ let g:lightline = {
 			\ },
 			\ }
 
+" ale config {{{
+let g:ale_linters = {'go': ['gofmt', 'goimports', 'golint']}
+" }}}
+
 " nvim-r config
 command RStart let oldft=&ft | set ft=r | exe 'set ft='.oldft | let b:IsInRCode = function("DefaultIsInRCode") | normal <LocalLeader>rf
 let R_notmuxconf=1
@@ -105,8 +112,8 @@ let g:closetag_shortcut = '>'
 let g:closetag_close_shortcut = '<leader>>'
 
 " ncm2 config
-autocmd BufEnter * call ncm2#enable_for_buffer()
-au TextChangedI * call ncm2#auto_trigger()
+" autocmd BufEnter * call ncm2#enable_for_buffer()
+" au TextChangedI * call ncm2#auto_trigger()
 
 " }}}
 
@@ -188,8 +195,8 @@ if (&term =~ '256color')
 	set t_ut=
 endif
 
-set bg=dark
-" colorscheme jellybeans
+set bg=light
+colorscheme base16-one-light
 " }}}
 
 
@@ -197,12 +204,20 @@ set bg=dark
 set diffopt+=algorithm:patience
 " }}}
 
+
+func FancyGoBinding()
+	nmap <F4> <ESC>:set makeprg=golangci-lint\ run<CR>
+	nmap <F5> <ESC>:set makeprg=make<CR>
+	nmap <F3> <ESC>:set makeprg=go\ build<CR>
+	nmap <F7> <ESC>:set makeprg=go\ run\ %<CR>
+endfunction
 " {{{ autocommands groups
 augroup programming
 	au Filetype cpp setlocal tabstop=2 expandtab shiftwidth=2 smartindent foldmethod=syntax equalprg=clang-format\ \-style\=\"\{BasedOnStyle:\ google,\ IndentWidth\:\ 2\}\"
 	au Filetype c setlocal tabstop=8 noexpandtab shiftwidth=8 smartindent foldmethod=syntax
 	au Filetype vim setlocal foldmethod=marker
 	au Filetype javascript setlocal foldmethod=marker expandtab tabstop=4 shiftwidth=4 smartindent
-	au Filetype go setlocal tabstop=8 noexpandtab shiftwidth=8 smartindent foldmethod=syntax
+	au Filetype go setlocal tabstop=8 noexpandtab shiftwidth=8 smartindent foldmethod=syntax makeprg=golangci-lint\ run
+	au Filetype go call FancyGoBinding()
 augroup END
 " }}}

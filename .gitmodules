@@ -94,3 +94,12 @@
 [submodule "pack/plugins/start/vim-go"]
 	path = pack/plugins/start/vim-go
 	url = https://github.com/fatih/vim-go.git
+[submodule "pack/plugins/start/ale"]
+	path = pack/plugins/start/ale
+	url = https://github.com/dense-analysis/ale
+[submodule "pack/plugins/start/iceberg.vim"]
+	path = pack/plugins/start/iceberg.vim
+	url = https://github.com/cocopon/iceberg.vim/
+[submodule "pack/plugins/start/vim-easymotion"]
+	path = pack/plugins/start/vim-easymotion
+	url = https://github.com/easymotion/vim-easymotion
