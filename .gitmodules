@@ -19,18 +19,6 @@
 [submodule "pack/plugins/start/lightline.vim"]
 	path = pack/plugins/start/lightline.vim
 	url = https://github.com/itchyny/lightline.vim.git
-[submodule "pack/plugins/start/ncm2"]
-	path = pack/plugins/start/ncm2
-	url = https://github.com/ncm2/ncm2.git
-[submodule "pack/plugins/start/ncm2-bufword"]
-	path = pack/plugins/start/ncm2-bufword
-	url = https://github.com/ncm2/ncm2-bufword.git
-[submodule "pack/plugins/start/ncm2-path"]
-	path = pack/plugins/start/ncm2-path
-	url = https://github.com/ncm2/ncm2-path.git
-[submodule "pack/plugins/start/ncm2-tmux"]
-	path = pack/plugins/start/ncm2-tmux
-	url = https://github.com/ncm2/ncm2-tmux.git
 [submodule "pack/plugins/start/nvim-r"]
 	path = pack/plugins/start/nvim-r
 	url = https://github.com/jalvesaq/nvim-r.git
@@ -43,9 +31,6 @@
 [submodule "pack/plugins/start/tagbar"]
 	path = pack/plugins/start/tagbar
 	url = https://github.com/majutsushi/tagbar.git
-[submodule "pack/plugins/start/ultisnips"]
-	path = pack/plugins/start/ultisnips
-	url = https://github.com/SirVer/ultisnips.git
 [submodule "pack/plugins/start/vim-closetag"]
 	path = pack/plugins/start/vim-closetag
 	url = https://github.com/alvan/vim-closetag.git
@@ -64,9 +49,6 @@
 [submodule "pack/plugins/start/vim-javascript-syntax"]
 	path = pack/plugins/start/vim-javascript-syntax
 	url = https://github.com/jelera/vim-javascript-syntax.git
-[submodule "pack/plugins/start/vim-snippets"]
-	path = pack/plugins/start/vim-snippets
-	url = https://github.com/honza/vim-snippets.git
 [submodule "pack/plugins/start/vim-surround"]
 	path = pack/plugins/start/vim-surround
 	url = https://github.com/tpope/vim-surround.git
@@ -88,12 +70,6 @@
 [submodule "pack/plugins/start/fzf"]
 	path = pack/plugins/start/fzf
 	url = https://github.com/junegunn/fzf
-[submodule "pack/plugins/start/ncm2-tagprefix"]
-	path = pack/plugins/start/ncm2-tagprefix
-	url = https://github.com/ncm2/ncm2-tagprefix
-[submodule "pack/plugins/start/vim-go"]
-	path = pack/plugins/start/vim-go
-	url = https://github.com/fatih/vim-go.git
 [submodule "pack/plugins/start/ale"]
 	path = pack/plugins/start/ale
 	url = https://github.com/dense-analysis/ale
