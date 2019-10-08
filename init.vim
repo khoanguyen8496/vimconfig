@@ -44,7 +44,7 @@ set number
 set scrolloff=5
 
 set cscopetag
-set tags=tags;
+set tags+=~/.tags,tags
 
 " }}}
 
@@ -82,7 +82,14 @@ let g:lightline = {
 			\ }
 
 " ale config {{{
-let g:ale_linters = {'go': ['gofmt', 'goimports', 'golint']}
+let g:ale_linters = {'go': ['gopls', 'golangci-lint']}
+let g:ale_fixers = {'go': ['gofmt', 'goimports', 'golint']}
+let g:ale_fix_on_save = 1
+let g:ale_lint_on_save = 1
+let g:ale_lint_on_text_changed = 'never'
+let g:ale_lint_on_insert_leave = 0
+let g:ale_lint_on_enter = 0
+nmap gd <Plug>(ale_go_to_definition)
 " }}}
 
 " nvim-r config
@@ -118,9 +125,6 @@ let g:closetag_close_shortcut = '<leader>>'
 " }}}
 
 " plugins' bindings {{{
-" nvim-r bindings
-vmap <Space> <Plug>RDSendSelection
-nmap <Space> <Plug>RDSendLine
 
 " fzf bindings
 "
@@ -195,8 +199,8 @@ if (&term =~ '256color')
 	set t_ut=
 endif
 
-set bg=light
-colorscheme base16-one-light
+set bg=dark
+colorscheme base16-solarized-dark
 " }}}
 
 
