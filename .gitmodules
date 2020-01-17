@@ -79,3 +79,9 @@
 [submodule "pack/plugins/start/vim-easymotion"]
 	path = pack/plugins/start/vim-easymotion
 	url = https://github.com/easymotion/vim-easymotion
+[submodule "pack/plugins/start/defx.nvim"]
+	path = pack/plugins/start/defx.nvim
+	url = https://github.com/Shougo/defx.nvim
+[submodule "pack/plugins/start/asyncrun.vim"]
+	path = pack/plugins/start/asyncrun.vim
+	url = https://github.com/skywind3000/asyncrun.vim

@@ -5,8 +5,14 @@ let maplocalleader='\\'
 
 nnoremap <leader>ei <ESC>:cope<CR>
 nnoremap <leader>eo <ESC>:ccl<CR>
-nmap <F2> <ESC>:w<CR>
-nmap <F9> <ESC>:make!<CR>:cope<CR>
+nmap <leader>w <ESC>:w<CR>
+nmap <leader>m <ESC>:make!<CR>:cope<CR>
+map ]db /<<<<<<< HEAD<cr>
+map [db ?<<<<<<< HEAD<cr>
+map ]dm /=======<cr>
+map [dm ?=======<cr>
+map ]de />>>>>>><cr>
+map [de ?>>>>>>><cr>
 " }}}
 
 " basic config {{{
@@ -41,7 +47,7 @@ set ttimeout
 set timeoutlen=500
 set ttimeoutlen=100 " timeout when keypress belong to any combos
 set number
-set scrolloff=5
+set scrolloff=1
 
 set cscopetag
 set tags+=~/.tags,tags
@@ -67,6 +73,7 @@ if executable('rg')
 	let g:gitgutter_grep_command = 'rg'
 	set grepprg=rg\ --vimgrep
 endif
+nmap <leader><leader>g :grep! <cword><cr>
 "}}}
 
 " lightline config test
@@ -82,14 +89,16 @@ let g:lightline = {
 			\ }
 
 " ale config {{{
-let g:ale_linters = {'go': ['gopls', 'golangci-lint']}
-let g:ale_fixers = {'go': ['gofmt', 'goimports', 'golint']}
+let g:ale_linters = {'go': ['gopls']}
+let g:ale_fixers = {'go': ['gofmt', 'goimports']}
 let g:ale_fix_on_save = 1
 let g:ale_lint_on_save = 1
 let g:ale_lint_on_text_changed = 'never'
 let g:ale_lint_on_insert_leave = 0
 let g:ale_lint_on_enter = 0
-nmap gd <Plug>(ale_go_to_definition)
+nmap <leader>gd <Plug>(ale_go_to_definition)
+nmap <leader>gr <Plug>(ale_find_references)
+set omnifunc=ale#completion#OmniFunc
 " }}}
 
 " nvim-r config
@@ -155,7 +164,7 @@ nnoremap gy "+y
 " copy to end of line
 nnoremap Y y$
 " " copy whole file to system clipboard
-nnoremap gY gg"+yG
+nnoremap gY mzgg"+yG'z
 " }}}
 
 " list stuff {{{
@@ -183,6 +192,7 @@ inoremap <silent><expr><S-TAB> pumvisible () ? "\<C-p>" : "\<S-TAB>"
 " split and visual {{{
 set lazyredraw
 set splitbelow
+set splitright
 set cmdheight=2
 
 " }}}
@@ -200,7 +210,7 @@ if (&term =~ '256color')
 endif
 
 set bg=dark
-colorscheme base16-solarized-dark
+colorscheme jellybeans
 " }}}
 
 
@@ -210,10 +220,12 @@ set diffopt+=algorithm:patience
 
 
 func FancyGoBinding()
-	nmap <F4> <ESC>:set makeprg=golangci-lint\ run<CR>
-	nmap <F5> <ESC>:set makeprg=make<CR>
-	nmap <F3> <ESC>:set makeprg=go\ build<CR>
-	nmap <F7> <ESC>:set makeprg=go\ run\ %<CR>
+	setlocal keywordprg=go\ doc
+	nmap <buffer> <F4> <ESC>:set makeprg=golangci-lint\ run<CR>
+	nmap <buffer> <F5> <ESC>:set makeprg=make<CR>
+	nmap <buffer> <F6> <ESC>:set makeprg=GO111MODULE=off\  make<CR>
+	nmap <buffer> <F3> <ESC>:set makeprg=go\ build<CR>
+	nmap <buffer> <F7> <ESC>:set makeprg=go\ run\ %<CR>
 endfunction
 " {{{ autocommands groups
 augroup programming
@@ -221,7 +233,41 @@ augroup programming
 	au Filetype c setlocal tabstop=8 noexpandtab shiftwidth=8 smartindent foldmethod=syntax
 	au Filetype vim setlocal foldmethod=marker
 	au Filetype javascript setlocal foldmethod=marker expandtab tabstop=4 shiftwidth=4 smartindent
-	au Filetype go setlocal tabstop=8 noexpandtab shiftwidth=8 smartindent foldmethod=syntax makeprg=golangci-lint\ run
+	au Filetype go setlocal tabstop=8 noexpandtab shiftwidth=8 colorcolumn=101 smartindent foldmethod=syntax keywordprg=go\ doc
 	au Filetype go call FancyGoBinding()
+	au FileType yaml setlocal tabstop=2 shiftwidth=2 smartindent expandtab
+	au FileType xml setlocal tabstop=4 shiftwidth=4 smartindent expandtab
 augroup END
+" }}}
+
+" {{{ defx mappings
+" augroup khoa_defx_settings
+" 	au FileType defx call DefxMapping()
+" augroup END
+
+" function! KhoaDefxTrigger()
+" 	let MyColumns=winwidth(0)/3
+" 	:Defx -split=vertical -direction=topleft -winwidth=MyColumns<cr>
+" endfunction
+" nnoremap <silent> - :Defx -split=vertical -direction=topleft -winwidth=35<cr>
+" nnoremap <silent> <F3> :Defx -split=vertical -direction=topleft -winwidth=35 -toggle<cr>
+" function! DefxMapping()
+" 	" open stuffs
+" 	nnoremap <silent><buffer><expr> <CR> defx#do_action('open_or_close_tree')
+" 	nnoremap <silent><buffer><expr> v defx#do_action('open', 'vsplit')
+" 	nnoremap <silent><buffer><expr> o defx#do_action('open', 'vsplit')
+" 	nnoremap <silent><buffer><expr> s defx#do_action('open', 'split')
+
+" 	" change vim cwd
+" 	nnoremap <silent><buffer><expr> - defx#do_action('cd', '..')
+" 	nnoremap <silent><buffer><expr> cd defx#do_action('change_vim_cwd')
+" 	nnoremap <silent><buffer><expr> ! defx#do_action('execute_command')
+
+
+" 	nnoremap <silent><buffer><expr> nd defx#do_action('new_directory')
+" 	nnoremap <silent><buffer><expr> nf defx#do_action('new_file')
+" 	nnoremap <silent><buffer><expr> d defx#do_action('remove')
+" 	nnoremap <silent><buffer><expr> st defx#do_action('toggle_sort', 'time')
+" 	nnoremap <silent><buffer><expr> q defx#do_action('quit')
+" endfunction
 " }}}
