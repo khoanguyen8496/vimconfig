@@ -7,12 +7,6 @@ nnoremap <leader>ei <ESC>:cope<CR>
 nnoremap <leader>eo <ESC>:ccl<CR>
 nmap <leader>w <ESC>:w<CR>
 nmap <leader>m <ESC>:make!<CR>:cope<CR>
-map ]db /<<<<<<< HEAD<cr>
-map [db ?<<<<<<< HEAD<cr>
-map ]dm /=======<cr>
-map [dm ?=======<cr>
-map ]de />>>>>>><cr>
-map [de ?>>>>>>><cr>
 " }}}
 
 " basic config {{{
@@ -56,11 +50,39 @@ set tags+=~/.tags,tags
 
 " plugins config {{{
 " ultisnips config
-let g:UltiSnipsExpandTrigger="<c-l>"
-let g:UltiSnipsListSnippets="<c-k>"
-let g:UltiSnipsJumpForwardTrigger="<tab>"
-let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
-let g:UltiSnipsSnippetDirectories=["~/.config/nvim/plugged/vim-snippets/UltiSnips"]
+" let g:UltiSnipsExpandTrigger="<c-l>"
+" let g:UltiSnipsListSnippets="<c-k>"
+" let g:UltiSnipsJumpForwardTrigger="<tab>"
+" let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
+" let g:UltiSnipsSnippetDirectories=["~/.config/nvim/plugged/vim-snippets/UltiSnips"]
+" Plugin key-mappings.{{{
+" Note: It must be "imap" and "smap".  It uses <Plug> mappings.
+imap <C-k>     <Plug>(neosnippet_expand_or_jump)
+smap <C-k>     <Plug>(neosnippet_expand_or_jump)
+xmap <C-k>     <Plug>(neosnippet_expand_target)
+
+" SuperTab like snippets' behavior.
+" Note: It must be "imap" and "smap".  It uses <Plug> mappings.
+"imap <expr><TAB>
+" \ pumvisible() ? "\<C-n>" :
+" \ neosnippet#expandable_or_jumpable() ?
+" \    "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+"smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+" \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+
+" For conceal markers.
+if has('conceal')
+	set conceallevel=2 concealcursor=niv
+endif
+
+" Enable snipMate compatibility feature.
+" let g:neosnippet#enable_snipmate_compatibility = 1
+
+" Expand the completed snippet trigger by <CR>.
+"imap <expr><CR>
+"\ (pumvisible() && neosnippet#expandable()) ?
+"\ "\<Plug>(neosnippet_expand)" : "\<CR>"
+" }}}
 
 " vim-gitgutter
 "
@@ -91,6 +113,8 @@ let g:lightline = {
 " ale config {{{
 let g:ale_linters = {'go': ['gopls']}
 let g:ale_fixers = {'go': ['gofmt', 'goimports']}
+" let g:ale_linters = {'go': []}
+" let g:ale_fixers = {'go': []}
 let g:ale_fix_on_save = 1
 let g:ale_lint_on_save = 1
 let g:ale_lint_on_text_changed = 'never'
@@ -98,47 +122,45 @@ let g:ale_lint_on_insert_leave = 0
 let g:ale_lint_on_enter = 0
 nmap <leader>gd <Plug>(ale_go_to_definition)
 nmap <leader>gr <Plug>(ale_find_references)
-set omnifunc=ale#completion#OmniFunc
+" set omnifunc=ale#completion#OmniFunc
 " }}}
 
 " nvim-r config
-command RStart let oldft=&ft | set ft=r | exe 'set ft='.oldft | let b:IsInRCode = function("DefaultIsInRCode") | normal <LocalLeader>rf
-let R_notmuxconf=1
-let R_nvim_wd=1
-let R_in_buffer = 0
-let R_applescript = 0
-let R_tmux_split = 1
-
-" closetag config
-" filenames like *.xml, *.html, *.xhtml, ...
-" Then after you press <kbd>&gt;</kbd> in these files, this plugin will try to close the current tag.
-let g:closetag_filenames = '*.html,*.xhtml,*.phtml'
-" filenames like *.xml, *.xhtml, ...
-" This will make the list of non closing tags self closing in the specified files.
-let g:closetag_xhtml_filenames = '*.xhtml,*.jsx'
-
-" integer value [0|1]
-" This will make the list of non closing tags case sensitive (e.g. `<Link>` will be closed while `<link>` won't.)
-let g:closetag_emptyTags_caseSensitive = 1
-
-" Shortcut for closing tags, default is '>'
-let g:closetag_shortcut = '>'
-
-" Add > at current position without closing the current tag, default is ''
-let g:closetag_close_shortcut = '<leader>>'
-
 " ncm2 config
 " autocmd BufEnter * call ncm2#enable_for_buffer()
 " au TextChangedI * call ncm2#auto_trigger()
+" vim-go config {{{
 
+let g:go_code_completion_enabled = 0
+" }}}
+" deoplete config {{{
+let g:deoplete#enable_at_startup = 1
+let g:python3_host_prog='/usr/local/Cellar/python/3.7.6_1/bin/python3'
+
+augroup DeopleteConfig
+autocmd!
+autocmd VimEnter * call deoplete#custom#option({
+	\ 'max_list': 50,
+	\ 'auto_complete_delay': 100,
+	\ 'smart_case': v:true,
+	\ 'min_pattern_length': 3,
+	\ 'yarp': v:true,
+	\ 'skip_multibyte': v:true,
+	\ 'skip_chars': ['(', ')', '<', '>'],
+	\ 'sources': {
+		\ '_': ['buffer', 'file'],
+		\ 'go': ['buffer', 'file', 'ale', 'omni']},
+	\ })
+augroup END
+" }}} deoplete
 " }}}
 
 " plugins' bindings {{{
 
 " fzf bindings
 "
-nnoremap <leader>f :Files<cr>
-nnoremap <leader>b :Buffers<cr>
+nnoremap <leader>f :FZF<cr>
+" nnoremap <leader>b :Buffers<cr>
 
 " fugitive bindings
 "
@@ -210,14 +232,13 @@ if (&term =~ '256color')
 endif
 
 set bg=dark
-colorscheme jellybeans
+colorscheme base16-nord
 " }}}
 
 
 " diff settings {{{ 
 set diffopt+=algorithm:patience
 " }}}
-
 
 func FancyGoBinding()
 	setlocal keywordprg=go\ doc
@@ -238,36 +259,13 @@ augroup programming
 	au FileType yaml setlocal tabstop=2 shiftwidth=2 smartindent expandtab
 	au FileType xml setlocal tabstop=4 shiftwidth=4 smartindent expandtab
 augroup END
-" }}}
 
-" {{{ defx mappings
-" augroup khoa_defx_settings
-" 	au FileType defx call DefxMapping()
+" function! PreHookGolang() abort
+" 	" execute "GoFmt"
+" 	execute "GoDiagnostics"
+" endfunction
+
+" augroup file_events
+" 	au BufWritePre *.go call PreHookGolang()
 " augroup END
-
-" function! KhoaDefxTrigger()
-" 	let MyColumns=winwidth(0)/3
-" 	:Defx -split=vertical -direction=topleft -winwidth=MyColumns<cr>
-" endfunction
-" nnoremap <silent> - :Defx -split=vertical -direction=topleft -winwidth=35<cr>
-" nnoremap <silent> <F3> :Defx -split=vertical -direction=topleft -winwidth=35 -toggle<cr>
-" function! DefxMapping()
-" 	" open stuffs
-" 	nnoremap <silent><buffer><expr> <CR> defx#do_action('open_or_close_tree')
-" 	nnoremap <silent><buffer><expr> v defx#do_action('open', 'vsplit')
-" 	nnoremap <silent><buffer><expr> o defx#do_action('open', 'vsplit')
-" 	nnoremap <silent><buffer><expr> s defx#do_action('open', 'split')
-
-" 	" change vim cwd
-" 	nnoremap <silent><buffer><expr> - defx#do_action('cd', '..')
-" 	nnoremap <silent><buffer><expr> cd defx#do_action('change_vim_cwd')
-" 	nnoremap <silent><buffer><expr> ! defx#do_action('execute_command')
-
-
-" 	nnoremap <silent><buffer><expr> nd defx#do_action('new_directory')
-" 	nnoremap <silent><buffer><expr> nf defx#do_action('new_file')
-" 	nnoremap <silent><buffer><expr> d defx#do_action('remove')
-" 	nnoremap <silent><buffer><expr> st defx#do_action('toggle_sort', 'time')
-" 	nnoremap <silent><buffer><expr> q defx#do_action('quit')
-" endfunction
 " }}}
