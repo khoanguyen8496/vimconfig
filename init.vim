@@ -48,41 +48,10 @@ set tags+=~/.tags,tags
 
 " }}}
 
-" plugins config {{{
-" ultisnips config
-" let g:UltiSnipsExpandTrigger="<c-l>"
-" let g:UltiSnipsListSnippets="<c-k>"
-" let g:UltiSnipsJumpForwardTrigger="<tab>"
-" let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
-" let g:UltiSnipsSnippetDirectories=["~/.config/nvim/plugged/vim-snippets/UltiSnips"]
-" Plugin key-mappings.{{{
-" Note: It must be "imap" and "smap".  It uses <Plug> mappings.
-imap <C-k>     <Plug>(neosnippet_expand_or_jump)
-smap <C-k>     <Plug>(neosnippet_expand_or_jump)
-xmap <C-k>     <Plug>(neosnippet_expand_target)
-
-" SuperTab like snippets' behavior.
-" Note: It must be "imap" and "smap".  It uses <Plug> mappings.
-"imap <expr><TAB>
-" \ pumvisible() ? "\<C-n>" :
-" \ neosnippet#expandable_or_jumpable() ?
-" \    "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
-"smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-" \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
-
 " For conceal markers.
 if has('conceal')
 	set conceallevel=2 concealcursor=niv
 endif
-
-" Enable snipMate compatibility feature.
-" let g:neosnippet#enable_snipmate_compatibility = 1
-
-" Expand the completed snippet trigger by <CR>.
-"imap <expr><CR>
-"\ (pumvisible() && neosnippet#expandable()) ?
-"\ "\<Plug>(neosnippet_expand)" : "\<CR>"
-" }}}
 
 " vim-gitgutter
 "
@@ -98,19 +67,8 @@ endif
 nmap <leader><leader>g :grep! <cword><cr>
 "}}}
 
-" lightline config test
-let g:lightline = {
-			\ 'colorscheme': 'default',
-			\ 'active': {
-			\   'left': [ [ 'mode', 'paste' ],
-			\             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
-			\ },
-			\ 'component_function': {
-			\   'gitbranch': 'fugitive#head'
-			\ },
-			\ }
-
 " ale config {{{
+let g:ale_enabled=0
 let g:ale_linters = {'go': ['gopls']}
 let g:ale_fixers = {'go': ['gofmt', 'goimports']}
 " let g:ale_linters = {'go': []}
@@ -120,10 +78,15 @@ let g:ale_lint_on_save = 1
 let g:ale_lint_on_text_changed = 'never'
 let g:ale_lint_on_insert_leave = 0
 let g:ale_lint_on_enter = 0
-nmap <leader>gd <Plug>(ale_go_to_definition)
-nmap <leader>gr <Plug>(ale_find_references)
+" nmap <leader>gd <Plug>(ale_go_to_definition)
+" nmap <leader>gr <Plug>(ale_find_references)
 " set omnifunc=ale#completion#OmniFunc
 " }}}
+"
+"languageclient-nvim
+let g:LanguageClient_serverCommands = {
+\ 'go': ['gopls'],
+\ }
 
 " nvim-r config
 " ncm2 config
@@ -131,27 +94,27 @@ nmap <leader>gr <Plug>(ale_find_references)
 " au TextChangedI * call ncm2#auto_trigger()
 " vim-go config {{{
 
-let g:go_code_completion_enabled = 0
+" let g:go_code_completion_enabled = 0
 " }}}
 " deoplete config {{{
-let g:deoplete#enable_at_startup = 1
-let g:python3_host_prog='/usr/local/Cellar/python/3.7.6_1/bin/python3'
+" let g:deoplete#enable_at_startup = 1
+" let g:python3_host_prog='/usr/local/Cellar/python/3.7.6_1/bin/python3'
 
-augroup DeopleteConfig
-autocmd!
-autocmd VimEnter * call deoplete#custom#option({
-	\ 'max_list': 50,
-	\ 'auto_complete_delay': 100,
-	\ 'smart_case': v:true,
-	\ 'min_pattern_length': 3,
-	\ 'yarp': v:true,
-	\ 'skip_multibyte': v:true,
-	\ 'skip_chars': ['(', ')', '<', '>'],
-	\ 'sources': {
-		\ '_': ['buffer', 'file'],
-		\ 'go': ['buffer', 'file', 'ale', 'omni']},
-	\ })
-augroup END
+" augroup DeopleteConfig
+" autocmd!
+" autocmd VimEnter * call deoplete#custom#option({
+" 	\ 'max_list': 50,
+" 	\ 'auto_complete_delay': 100,
+" 	\ 'smart_case': v:true,
+" 	\ 'min_pattern_length': 3,
+" 	\ 'yarp': v:true,
+" 	\ 'skip_multibyte': v:true,
+" 	\ 'skip_chars': ['(', ')', '<', '>'],
+" 	\ 'sources': {
+" 		\ '_': ['buffer', 'file'],
+" 		\ 'go': ['ale']},
+" 	\ })
+" augroup END
 " }}} deoplete
 " }}}
 
@@ -206,10 +169,11 @@ set completeopt=noinsert,menuone,noselect
 set complete-=i
 set complete+=t
 
+" temporary disable to use mucomplete
 " completion with tab
-inoremap <silent><expr><CR>    pumvisible () ? "\<c-y>" : "\<CR>"
-inoremap <silent><expr><TAB>   pumvisible () ? "\<C-n>" : "\<TAB>"
-inoremap <silent><expr><S-TAB> pumvisible () ? "\<C-p>" : "\<S-TAB>"
+" inoremap <silent><expr><CR>    pumvisible () ? "\<c-y>" : "\<CR>"
+" inoremap <silent><expr><TAB>   pumvisible () ? "\<C-n>" : "\<TAB>"
+" inoremap <silent><expr><S-TAB> pumvisible () ? "\<C-p>" : "\<S-TAB>"
 
 " split and visual {{{
 set lazyredraw
@@ -232,7 +196,7 @@ if (&term =~ '256color')
 endif
 
 set bg=dark
-colorscheme base16-nord
+colorscheme jellybeans
 " }}}
 
 
@@ -242,12 +206,19 @@ set diffopt+=algorithm:patience
 
 func FancyGoBinding()
 	setlocal keywordprg=go\ doc
-	nmap <buffer> <F4> <ESC>:set makeprg=golangci-lint\ run<CR>
 	nmap <buffer> <F5> <ESC>:set makeprg=make<CR>
-	nmap <buffer> <F6> <ESC>:set makeprg=GO111MODULE=off\  make<CR>
 	nmap <buffer> <F3> <ESC>:set makeprg=go\ build<CR>
 	nmap <buffer> <F7> <ESC>:set makeprg=go\ run\ %<CR>
 endfunction
+function LC_maps()
+	if has_key(g:LanguageClient_serverCommands, &filetype)
+		nnoremap <buffer> <silent> K :call LanguageClient#textDocument_hover()<cr>
+		nnoremap <buffer> <silent> gd :call LanguageClient#textDocument_definition()<CR>
+		nnoremap <buffer> <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
+	endif
+endfunction
+
+
 " {{{ autocommands groups
 augroup programming
 	au Filetype cpp setlocal tabstop=2 expandtab shiftwidth=2 smartindent foldmethod=syntax equalprg=clang-format\ \-style\=\"\{BasedOnStyle:\ google,\ IndentWidth\:\ 2\}\"
@@ -258,12 +229,8 @@ augroup programming
 	au Filetype go call FancyGoBinding()
 	au FileType yaml setlocal tabstop=2 shiftwidth=2 smartindent expandtab
 	au FileType xml setlocal tabstop=4 shiftwidth=4 smartindent expandtab
+	au FileType * call LC_maps()
 augroup END
-
-" function! PreHookGolang() abort
-" 	" execute "GoFmt"
-" 	execute "GoDiagnostics"
-" endfunction
 
 " augroup file_events
 " 	au BufWritePre *.go call PreHookGolang()
